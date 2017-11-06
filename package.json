@@ -1,57 +1,6 @@
 {
-  "_args": [
-    [
-      {
-        "name": "react-native-update-mutlirn",
-        "raw": "react-native-update-mutlirn@^4.1.2",
-        "rawSpec": "^4.1.2",
-        "scope": null,
-        "spec": ">=4.1.2 <5.0.0",
-        "type": "range"
-      },
-      "/Users/shiyunjie/HENGGE/BasicApp"
-    ]
-  ],
-  "_cnpm_publish_time": 1496652699803,
-  "_from": "react-native-update-mutlirn@>=4.1.2 <5.0.0",
-  "_hasShrinkwrap": false,
-  "_id": "react-native-update-mutlirn@4.1.2",
-  "_inCache": true,
-  "_installable": true,
-  "_location": "/react-native-update-mutlirn",
-  "_nodeVersion": "7.9.0",
-  "_npmOperationalInternal": {
-    "host": "s3://npm-registry-packages",
-    "tmp": "tmp/react-native-update-mutlirn-4.1.2.tgz_1496652699690_0.6549316793680191"
-  },
-  "_npmUser": {
-    "email": "505039501@qq.com",
-    "name": "mervinzhu"
-  },
-  "_npmVersion": "4.2.0",
-  "_phantomChildren": {},
-  "_requested": {
-    "name": "react-native-update-mutlirn",
-    "raw": "react-native-update-mutlirn@^4.1.2",
-    "rawSpec": "^4.1.2",
-    "scope": null,
-    "spec": ">=4.1.2 <5.0.0",
-    "type": "range"
-  },
-  "_requiredBy": [
-    "/"
-  ],
-  "_resolved": "https://registry.npm.taobao.org/react-native-update-mutlirn/download/react-native-update-mutlirn-4.1.2.tgz",
-  "_shasum": "3348b18b559bd1a40138f1bd7a4b7f435c427d70",
-  "_shrinkwrap": null,
-  "_spec": "react-native-update-mutlirn@^4.1.2",
-  "_where": "/Users/shiyunjie/HENGGE/BasicApp",
-  "author": {
-    "name": "reactnativecn"
-  },
-  "bugs": {
-    "url": "https://gitlab.com/mervinzhu/react-native-pushy-mutirn/issues"
-  },
+  "name": "react-native-update-mutlirn-hg",
+  "version": "1.0.1",
   "dependencies": {
     "cli-arguments": "^0.2.1",
     "fs-promise": "^0.4.1",
@@ -66,7 +15,7 @@
     "yauzl": "2.4.1",
     "yazl": "2.3.0"
   },
-  "description": "react-native-mutlirn hot update",
+  "description": "react-native-mutlirn-hg hot update",
   "devDependencies": {
     "babel-cli": "^6.5.1",
     "babel-eslint": "^4.1.6",
@@ -81,43 +30,24 @@
     "babel-plugin-transform-object-rest-spread": "^6.5.0",
     "babel-plugin-transform-strict-mode": "^6.5.2"
   },
-  "directories": {},
-  "dist": {
-    "noattachment": false,
-    "shasum": "3348b18b559bd1a40138f1bd7a4b7f435c427d70",
-    "size": 173524,
-    "tarball": "http://registry.npm.taobao.org/react-native-update-mutlirn/download/react-native-update-mutlirn-4.1.2.tgz"
-  },
-  "gitHead": "e915f5ddf7b800b1bf46a178bbfb956c4a5af669",
-  "homepage": "https://gitlab.com/mervinzhu/react-native-pushy-mutirn#readme",
-  "keywords": [
-    "react-native",
-    "ios",
-    "android",
-    "update"
-  ],
-  "license": "BSD-3-Clause",
   "main": "lib/index.js",
-  "maintainers": [
-    {
-      "email": "505039501@qq.com",
-      "name": "mervinzhu"
-    }
-  ],
-  "name": "react-native-update-mutlirn",
-  "optionalDependencies": {},
-  "peerDependencies": {
-    "react-native": ">=0.27.0"
-  },
-  "publish_time": 1496652699803,
-  "readme": "ERROR: No README data found!",
-  "repository": {
-    "type": "git",
-    "url": "git+https://mervinzhu@gitlab.com/mervinzhu/react-native-pushy-mutirn.git"
+  "directories": {
+    "doc": "docs"
   },
   "scripts": {
-    "prepublish": "babel local-cli/src --out-dir local-cli/lib",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
-  "version": "4.1.2"
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/shiyunjie/react-native-update-mutlirn-hg.git"
+  },
+  "keywords": [
+    "react-native-update-mutlirn-hg"
+  ],
+  "author": "29azrael",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/shiyunjie/react-native-update-mutlirn-hg/issues"
+  },
+  "homepage": "https://github.com/shiyunjie/react-native-update-mutlirn-hg#readme"
 }

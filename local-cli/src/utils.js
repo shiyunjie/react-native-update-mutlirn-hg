@@ -36,7 +36,7 @@ export function translateOptions(options){
 }
 
 export function getRNVersion() {
-  const version = JSON.parse(fs.readFileSync(path.resolve('node_modules/react-native/package.json'))).version;
+  const version = JSON.parse(fs.readFileSync(path.resolve('node_modules/react-native/package2.json'))).version;
 
   // We only care about major and minor version.
   const match = /^(\d+)\.(\d+)\./.exec(version);
