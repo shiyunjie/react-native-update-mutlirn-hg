@@ -308,8 +308,8 @@ function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { de
 function _interopRequireWildcard(obj) { if (obj && obj.__esModule) { return obj; } else { var newObj = {}; if (obj != null) { for (var key in obj) { if (Object.prototype.hasOwnProperty.call(obj, key)) newObj[key] = obj[key]; } } newObj.default = obj; return newObj; } }
 
 function _asyncToGenerator(fn) { return function () { var gen = fn.apply(this, arguments); return new Promise(function (resolve, reject) { function step(key, arg) { try { var info = gen[key](arg); var value = info.value; } catch (error) { reject(error); return; } if (info.done) { resolve(value); } else { return Promise.resolve(value).then(function (value) { step("next", value); }, function (err) { step("throw", err); }); } } return step("next"); }); }; } /**
-                                                                                                                                                                                                                                                                                                                                                                                                                                                                            * Created by tdzl2003 on 2/22/16.
-                                                                                                                                                                                                                                                                                                                                                                                                                                                                            */
+ * Created by tdzl2003 on 2/22/16.
+ */
 
 // import {diff} from 'node-bsdiff';
 
@@ -406,11 +406,11 @@ const commands = exports.commands = {
 
       var _translateOptions = (0, _utils.translateOptions)(_extends({}, options, { platform }));
 
-      const entryFile = _translateOptions.entryFile,
-            intermediaDir = _translateOptions.intermediaDir,
-            output = _translateOptions.output,
-            dev = _translateOptions.dev,
-            verbose = _translateOptions.verbose;
+      let entryFile = _translateOptions.entryFile,
+        intermediaDir = _translateOptions.intermediaDir,
+        output = _translateOptions.output,
+        dev = _translateOptions.dev,
+        verbose = _translateOptions.verbose;
 
 
       const realIntermedia = path.resolve(intermediaDir);
@@ -424,8 +424,8 @@ const commands = exports.commands = {
       var _getRNVersion = (0, _utils.getRNVersion)();
 
       const version = _getRNVersion.version,
-            major = _getRNVersion.major,
-            minor = _getRNVersion.minor;
+        major = _getRNVersion.major,
+        minor = _getRNVersion.minor;
 
 
       console.log('Bundling with React Native version: ', version);
@@ -433,7 +433,11 @@ const commands = exports.commands = {
       yield rmdir(realIntermedia);
       yield mkdir(realIntermedia);
 
-      require(path.resolve('node_modules/react-native/packager/babelRegisterOnly'))([/private-cli\/src/, /local-cli/]);
+      try {
+        require(path.resolve('node_modules/react-native/packager/babelRegisterOnly'))([/private-cli\/src/, /local-cli/]);
+      } catch (err) {
+        require('metro-bundler/src/babelRegisterOnly');
+      }
 
       // This line fix issue #11
       require(path.resolve('node_modules/react-native/local-cli/cli'));
@@ -442,14 +446,26 @@ const commands = exports.commands = {
       const bundle = require(path.resolve('node_modules/react-native/local-cli/bundle/bundle'));
       let defaultConfig;
 
-      if (major >= 0 && minor >= 33) {
-        if (minor >= 42) {
-          defaultConfig = Config.get(path.resolve('node_modules/react-native/local-cli'), require(path.resolve('node_modules/react-native/local-cli/core/default.config')), path.resolve('node_modules/react-native/packager/rn-cli.config.js'));
+      if (major === 0) {
+        if (minor >= 49) {
+          entryFile = entryFile || `index.js`;
         } else {
+          entryFile = entryFile || `index.${platform}.js`;
+        }
+      }
+
+      if (major === 0) {
+        if (minor >= 45) {
+          defaultConfig = Config.findOptional(path.resolve('.'));
+        } else if (minor >= 42) {
+          defaultConfig = Config.get(path.resolve('node_modules/react-native/local-cli'), require(path.resolve('node_modules/react-native/local-cli/core/default.config')), path.resolve('node_modules/react-native/packager/rn-cli.config.js'));
+        } else if (minor >= 33) {
           defaultConfig = Config.get(path.resolve('node_modules/react-native/local-cli'), require(path.resolve('node_modules/react-native/local-cli/default.config')), path.resolve('node_modules/react-native/packager/rn-cli.config.js'));
+        } else {
+          defaultConfig = Config.get(path.resolve('node_modules/react-native/local-cli'), require(path.resolve('node_modules/react-native/local-cli/default.config')));
         }
       } else {
-        defaultConfig = Config.get(path.resolve('node_modules/react-native/local-cli'), require(path.resolve('node_modules/react-native/local-cli/default.config')));
+        defaultConfig = Config.findOptional(path.resolve('.'));
       }
 
       if (bundle.func) {
@@ -461,7 +477,6 @@ const commands = exports.commands = {
           bundleOutput: `${realIntermedia}${path.sep}index.bundlejs`,
           assetsDest: `${realIntermedia}`,
           verbose: !!verbose,
-          transformer: require.resolve('react-native/packager/transformer'),
           bundleEncoding: 'utf8'
         });
       } else {
@@ -473,12 +488,15 @@ const commands = exports.commands = {
 
       yield pack(realIntermedia, realOutput);
 
-      // const v = await question('Would you like to publish it?(Y/N)');
-      // if (v.toLowerCase() === 'y') {
-      //   await this.publish({args: [realOutput], options: {
-      //     platform,
-      //   }})
-      // }
+      /**
+       * 取消询问是否publish到中文网热更新平台
+       */
+      //const v = yield (0, _utils.question)('Would you like to publish it?(Y/N)');
+      //if (v.toLowerCase() === 'y') {
+      //  yield this.publish({ args: [realOutput], options: {
+      //    platform
+      //  } });
+      //}
     });
 
     return function bundle(_x11) {
@@ -488,12 +506,12 @@ const commands = exports.commands = {
 
   diff(_ref6) {
     let args = _ref6.args,
-        options = _ref6.options;
+      options = _ref6.options;
     return _asyncToGenerator(function* () {
       var _args = _slicedToArray(args, 2);
 
       const origin = _args[0],
-            next = _args[1];
+        next = _args[1];
       const output = options.output;
 
 
@@ -511,12 +529,12 @@ const commands = exports.commands = {
 
   diffFromApk(_ref7) {
     let args = _ref7.args,
-        options = _ref7.options;
+      options = _ref7.options;
     return _asyncToGenerator(function* () {
       var _args2 = _slicedToArray(args, 2);
 
       const origin = _args2[0],
-            next = _args2[1];
+        next = _args2[1];
       const output = options.output;
 
 
@@ -534,12 +552,12 @@ const commands = exports.commands = {
 
   diffFromIpa(_ref8) {
     let args = _ref8.args,
-        options = _ref8.options;
+      options = _ref8.options;
     return _asyncToGenerator(function* () {
       var _args3 = _slicedToArray(args, 2);
 
       const origin = _args3[0],
-            next = _args3[1];
+        next = _args3[1];
       const output = options.output;
 
 

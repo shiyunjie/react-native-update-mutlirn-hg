@@ -1,6 +1,6 @@
 {
   "name": "react-native-update-mutlirn-hg",
-  "version": "1.0.3",
+  "version": "2.0.3",
   "dependencies": {
     "cli-arguments": "^0.2.1",
     "fs-promise": "^0.4.1",
@@ -44,7 +44,7 @@
   "keywords": [
     "react-native-update-mutlirn-hg"
   ],
-  "author": "29azrael",
+
   "license": "ISC",
   "bugs": {
     "url": "https://github.com/shiyunjie/react-native-update-mutlirn-hg/issues"

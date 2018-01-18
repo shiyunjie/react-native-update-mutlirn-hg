@@ -20,8 +20,8 @@ let uploadFile = function () {
     var _ref6 = yield exports.post('/upload', {});
 
     const url = _ref6.url,
-          fieldName = _ref6.fieldName,
-          formData = _ref6.formData;
+      fieldName = _ref6.fieldName,
+      formData = _ref6.formData;
 
     let realUrl = url;
 

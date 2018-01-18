@@ -3,16 +3,16 @@
 var _utils = require('./utils');
 
 function _asyncToGenerator(fn) { return function () { var gen = fn.apply(this, arguments); return new Promise(function (resolve, reject) { function step(key, arg) { try { var info = gen[key](arg); var value = info.value; } catch (error) { reject(error); return; } if (info.done) { resolve(value); } else { return Promise.resolve(value).then(function (value) { step("next", value); }, function (err) { step("throw", err); }); } } return step("next"); }); }; } /**
-                                                                                                                                                                                                                                                                                                                                                                                                                                                                            * Created by tdzl2003 on 2/13/16.
-                                                                                                                                                                                                                                                                                                                                                                                                                                                                            */
+ * Created by tdzl2003 on 2/13/16.
+ */
 
 var _require = require('./api');
 
 const post = _require.post,
-      get = _require.get,
-      replaceSession = _require.replaceSession,
-      saveSession = _require.saveSession,
-      closeSession = _require.closeSession;
+  get = _require.get,
+  replaceSession = _require.replaceSession,
+  saveSession = _require.saveSession,
+  closeSession = _require.closeSession;
 
 const crypto = require('crypto');
 
@@ -34,7 +34,7 @@ exports.commands = {
       });
 
       const token = _ref3.token,
-            info = _ref3.info;
+        info = _ref3.info;
 
       replaceSession({ token });
       yield saveSession();

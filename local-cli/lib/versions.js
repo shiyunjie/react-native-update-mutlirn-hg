@@ -10,7 +10,7 @@ let showVersion = function () {
     var _ref2 = yield get(`/app/${appId}/version/list`);
 
     const data = _ref2.data,
-          count = _ref2.count;
+      count = _ref2.count;
 
     console.log(`Offset ${offset}`);
     for (const version of data) {
@@ -74,14 +74,14 @@ let chooseVersion = function () {
         case 'B':
           offset = 0;break;
         default:
-          {
-            const v = data.find(function (v) {
-              return v.id === (cmd | 0);
-            });
-            if (v) {
-              return v;
-            }
+        {
+          const v = data.find(function (v) {
+            return v.id === (cmd | 0);
+          });
+          if (v) {
+            return v;
           }
+        }
       }
     }
   });
@@ -106,19 +106,19 @@ function _asyncToGenerator(fn) { return function () { var gen = fn.apply(this, a
 var _require = require('./api');
 
 const get = _require.get,
-      post = _require.post,
-      put = _require.put,
-      uploadFile = _require.uploadFile;
+  post = _require.post,
+  put = _require.put,
+  uploadFile = _require.uploadFile;
 const commands = exports.commands = {
   publish: function () {
     var _ref5 = _asyncToGenerator(function* (_ref6) {
       let args = _ref6.args,
-          options = _ref6.options;
+        options = _ref6.options;
 
       const fn = args[0];
       const name = options.name,
-            description = options.description,
-            metaInfo = options.metaInfo;
+        description = options.description,
+        metaInfo = options.metaInfo;
 
 
       if (!fn) {
@@ -176,7 +176,7 @@ const commands = exports.commands = {
   update: function () {
     var _ref13 = _asyncToGenerator(function* (_ref14) {
       let args = _ref14.args,
-          options = _ref14.options;
+        options = _ref14.options;
 
       const platform = (0, _app.checkPlatform)(options.platform || (yield (0, _utils.question)('Platform(ios/android):')));
 

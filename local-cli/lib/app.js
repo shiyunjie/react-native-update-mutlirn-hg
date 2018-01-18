@@ -80,14 +80,14 @@ var fs = _interopRequireWildcard(_fsPromise);
 function _interopRequireWildcard(obj) { if (obj && obj.__esModule) { return obj; } else { var newObj = {}; if (obj != null) { for (var key in obj) { if (Object.prototype.hasOwnProperty.call(obj, key)) newObj[key] = obj[key]; } } newObj.default = obj; return newObj; } }
 
 function _asyncToGenerator(fn) { return function () { var gen = fn.apply(this, arguments); return new Promise(function (resolve, reject) { function step(key, arg) { try { var info = gen[key](arg); var value = info.value; } catch (error) { reject(error); return; } if (info.done) { resolve(value); } else { return Promise.resolve(value).then(function (value) { step("next", value); }, function (err) { step("throw", err); }); } } return step("next"); }); }; } /**
-                                                                                                                                                                                                                                                                                                                                                                                                                                                                            * Created by tdzl2003 on 2/13/16.
-                                                                                                                                                                                                                                                                                                                                                                                                                                                                            */
+ * Created by tdzl2003 on 2/13/16.
+ */
 
 var _require = require('./api');
 
 const post = _require.post,
-      get = _require.get,
-      doDelete = _require.doDelete;
+  get = _require.get,
+  doDelete = _require.doDelete;
 
 
 const validPlatforms = {
@@ -130,7 +130,7 @@ const commands = exports.commands = {
   deleteApp: function () {
     var _ref8 = _asyncToGenerator(function* (_ref9) {
       let args = _ref9.args,
-          options = _ref9.options;
+        options = _ref9.options;
       const platform = options.platform;
 
       const id = args[0] || chooseApp(platform);
@@ -160,7 +160,7 @@ const commands = exports.commands = {
   selectApp: function () {
     var _ref12 = _asyncToGenerator(function* (_ref13) {
       let args = _ref13.args,
-          options = _ref13.options;
+        options = _ref13.options;
 
       const platform = checkPlatform(options.platform || (yield (0, _utils.question)('Platform(ios/android):')));
       const id = args[0] || (yield chooseApp(platform)).id;

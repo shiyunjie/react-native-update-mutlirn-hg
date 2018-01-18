@@ -64,8 +64,8 @@ function _asyncToGenerator(fn) { return function () { var gen = fn.apply(this, a
 var _require = require('./api');
 
 const get = _require.get,
-      post = _require.post,
-      uploadFile = _require.uploadFile;
+  post = _require.post,
+  uploadFile = _require.uploadFile;
 const commands = exports.commands = {
   uploadIpa: function () {
     var _ref4 = _asyncToGenerator(function* (_ref5) {
