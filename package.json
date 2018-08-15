@@ -1,6 +1,6 @@
 {
   "name": "react-native-update-mutlirn-hg",
-  "version": "2.0.3",
+  "version": "2.0.6",
   "dependencies": {
     "cli-arguments": "^0.2.1",
     "fs-promise": "^0.4.1",

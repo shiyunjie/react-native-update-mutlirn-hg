@@ -103,7 +103,9 @@ class DownloadTask extends AsyncTask<DownloadTaskParams, Void, Void> {
 //            BigDecimal b;
 //            a = new BigDecimal(totalRead);
 //            b = new BigDecimal(contentLength);
+            if( this.listener!=null) {
             this.listener.sendProgress(contentLength+"",totalRead+"");
+            }
         }
         if (totalRead != contentLength) {
             throw new Error("Unexpected eof while reading ppk");
@@ -438,13 +440,17 @@ class DownloadTask extends AsyncTask<DownloadTaskParams, Void, Void> {
                     doCleanUp(params[0]);
                     break;
             }
+            if( this.listener!=null) {
             this.listener.sendProgress("1","1");
+            }
             params[0].listener.onDownloadCompleted();
         } catch (Throwable e) {
             if (UpdateContext.DEBUG) {
                 e.printStackTrace();
             }
+            if( this.listener!=null) {
             this.listener.sendProgress("1","-1");
+            }
             params[0].listener.onDownloadFailed(e);
         }
         return null;
