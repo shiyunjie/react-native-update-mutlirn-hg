@@ -1,6 +1,6 @@
 {
   "name": "react-native-update-mutlirn-hg",
-  "version": "2.1.1",
+  "version": "3.1.1",
   "dependencies": {
     "cli-arguments": "^0.2.1",
     "fs-promise": "^0.4.1",
@@ -11,6 +11,10 @@
     "progress": "^1.1.8",
     "read": "^1.0.7",
     "request": "^2.69.0",
+    "decompress-zip": "^0.3.1",
+    "glob": "^7.1.2",
+    "simple-plist": "^0.3.0",
+    "temporary": "^0.0.8",
     "rimraf": "^2.5.2",
     "yauzl": "2.4.1",
     "yazl": "2.3.0"

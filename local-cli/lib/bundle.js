@@ -41,7 +41,7 @@ let pack = function () {
       zipfile.outputStream.on('error', function (err) {
         return reject(err);
       });
-      zipfile.outputStream.pipe(fs.createWriteStream(output)).on("close", function () {
+      zipfile.outputStream.pipe(fs.createWriteStream(output)).on('close', function () {
         resolve();
       });
       zipfile.end();
@@ -88,7 +88,7 @@ let diffFromPPK = function () {
       zipfile.outputStream.on('error', function (err) {
         throw err;
       });
-      zipfile.outputStream.pipe(fs.createWriteStream(output)).on("close", function () {
+      zipfile.outputStream.pipe(fs.createWriteStream(output)).on('close', function () {
         resolve();
       });
     });
@@ -224,7 +224,7 @@ let diffFromPackage = function () {
       zipfile.outputStream.on('error', function (err) {
         throw err;
       });
-      zipfile.outputStream.pipe(fs.createWriteStream(output)).on("close", function () {
+      zipfile.outputStream.pipe(fs.createWriteStream(output)).on('close', function () {
         resolve();
       });
     });
@@ -303,13 +303,17 @@ var _crypto = require('crypto');
 
 var _crypto2 = _interopRequireDefault(_crypto);
 
+var _minimist = require('minimist');
+
+var _minimist2 = _interopRequireDefault(_minimist);
+
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 function _interopRequireWildcard(obj) { if (obj && obj.__esModule) { return obj; } else { var newObj = {}; if (obj != null) { for (var key in obj) { if (Object.prototype.hasOwnProperty.call(obj, key)) newObj[key] = obj[key]; } } newObj.default = obj; return newObj; } }
 
 function _asyncToGenerator(fn) { return function () { var gen = fn.apply(this, arguments); return new Promise(function (resolve, reject) { function step(key, arg) { try { var info = gen[key](arg); var value = info.value; } catch (error) { reject(error); return; } if (info.done) { resolve(value); } else { return Promise.resolve(value).then(function (value) { step("next", value); }, function (err) { step("throw", err); }); } } return step("next"); }); }; } /**
- * Created by tdzl2003 on 2/22/16.
- */
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                            * Created by tdzl2003 on 2/22/16.
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                            */
 
 // import {diff} from 'node-bsdiff';
 
@@ -404,13 +408,15 @@ const commands = exports.commands = {
 
       const platform = (0, _app.checkPlatform)(options.platform || (yield (0, _utils.question)('Platform(ios/android):')));
 
-      var _translateOptions = (0, _utils.translateOptions)(_extends({}, options, { platform }));
+      var _translateOptions = (0, _utils.translateOptions)(_extends({}, options, {
+        platform
+      }));
 
       let entryFile = _translateOptions.entryFile,
-        intermediaDir = _translateOptions.intermediaDir,
-        output = _translateOptions.output,
-        dev = _translateOptions.dev,
-        verbose = _translateOptions.verbose;
+          intermediaDir = _translateOptions.intermediaDir,
+          output = _translateOptions.output,
+          dev = _translateOptions.dev,
+          verbose = _translateOptions.verbose;
 
 
       const realIntermedia = path.resolve(intermediaDir);
@@ -424,8 +430,8 @@ const commands = exports.commands = {
       var _getRNVersion = (0, _utils.getRNVersion)();
 
       const version = _getRNVersion.version,
-        major = _getRNVersion.major,
-        minor = _getRNVersion.minor;
+            major = _getRNVersion.major,
+            minor = _getRNVersion.minor;
 
 
       console.log('Bundling with React Native version: ', version);
@@ -433,18 +439,25 @@ const commands = exports.commands = {
       yield rmdir(realIntermedia);
       yield mkdir(realIntermedia);
 
-      try {
-        require(path.resolve('node_modules/react-native/packager/babelRegisterOnly'))([/private-cli\/src/, /local-cli/]);
-      } catch (err) {
-        require('metro-bundler/src/babelRegisterOnly');
+      if (major === 0) {
+        if (minor >= 56) {
+          require('metro-babel-register');
+        } else if (minor >= 52) {
+          require('metro/src/babelRegisterOnly');
+        } else if (minor >= 47) {
+          require('metro-bundler/src/babelRegisterOnly');
+        } else if (minor === 46) {
+          require('metro-bundler/build/babelRegisterOnly');
+        } else {
+          // handle RN <= 0.45
+          require(path.resolve('node_modules/react-native/packager/babelRegisterOnly'))([/private-cli\/src/, /local-cli/]);
+        }
       }
 
       // This line fix issue #11
       require(path.resolve('node_modules/react-native/local-cli/cli'));
 
-      const Config = require(path.resolve('node_modules/react-native/local-cli/util/Config'));
-      const bundle = require(path.resolve('node_modules/react-native/local-cli/bundle/bundle'));
-      let defaultConfig;
+      let Config, defaultConfig, bundle;
 
       if (major === 0) {
         if (minor >= 49) {
@@ -455,7 +468,42 @@ const commands = exports.commands = {
       }
 
       if (major === 0) {
-        if (minor >= 45) {
+        if (minor >= 59) {
+          Config = require(path.resolve('node_modules/@react-native-community/cli/build/tools/loadMetroConfig'));
+          bundle = require(path.resolve('node_modules/@react-native-community/cli/build/commands/bundle/bundle')).default;
+        } else {
+          Config = require(path.resolve('node_modules/react-native/local-cli/util/Config'));
+          bundle = require(path.resolve('node_modules/react-native/local-cli/bundle/bundle'));
+        }
+        if (minor >= 59) {
+          // https://github.com/react-native-community/cli/blob/1.x/packages/cli/src/cliEntry.js#L170-L202
+          const options = (0, _minimist2.default)(process.argv.slice(2));
+
+          const root = options.projectRoot ? path.resolve(options.projectRoot) : process.cwd();
+
+          const reactNativePath = options.reactNativePath ? path.resolve(options.reactNativePath) : function () {
+            try {
+              return path.dirname(require.resolve('react-native/package.json', {
+                paths: [root]
+              }));
+            } catch (_ignored) {
+              throw new Error('Unable to find React Native files. Please use --reactNativePath to specify the path.');
+            }
+          }();
+
+          defaultConfig = {
+            reactNativePath,
+            root
+          };
+        } else if (minor >= 57) {
+          // https://github.com/facebook/react-native/commit/a32620dc3b7a0ebd53feeaf7794051705d80f49e#diff-75692fe55c8b1a7c05f4264301342167L101
+          // defaultConfig = Config.load();
+          var _require = require(path.resolve('node_modules/react-native/local-cli/core'));
+
+          const configPromise = _require.configPromise;
+
+          defaultConfig = yield configPromise;
+        } else if (minor >= 45) {
           defaultConfig = Config.findOptional(path.resolve('.'));
         } else if (minor >= 42) {
           defaultConfig = Config.get(path.resolve('node_modules/react-native/local-cli'), require(path.resolve('node_modules/react-native/local-cli/core/default.config')), path.resolve('node_modules/react-native/packager/rn-cli.config.js'));
@@ -468,8 +516,9 @@ const commands = exports.commands = {
         defaultConfig = Config.findOptional(path.resolve('.'));
       }
 
+      console;
       if (bundle.func) {
-        // React native after 0.31.0
+        // React native >= 0.31.0
         yield bundle.func([], defaultConfig, {
           entryFile: entryFile,
           platform: platform,
@@ -480,7 +529,7 @@ const commands = exports.commands = {
           bundleEncoding: 'utf8'
         });
       } else {
-        // React native before 0.30.0
+        // React native < 0.31.0
         yield bundle(['--entry-file', entryFile, '--platform', platform, '--dev', '' + !!dev, '--bundle-output', `${realIntermedia}${path.sep}index.bundlejs`, '--assets-dest', `${realIntermedia}`, '--verbose', '' + !!verbose], defaultConfig);
       }
 
@@ -493,9 +542,12 @@ const commands = exports.commands = {
        */
       //const v = yield (0, _utils.question)('Would you like to publish it?(Y/N)');
       //if (v.toLowerCase() === 'y') {
-      //  yield this.publish({ args: [realOutput], options: {
-      //    platform
-      //  } });
+      //  yield this.publish({
+      //    args: [realOutput],
+      //    options: {
+      //      platform
+      //    }
+      //  });
       //}
     });
 
@@ -506,12 +558,12 @@ const commands = exports.commands = {
 
   diff(_ref6) {
     let args = _ref6.args,
-      options = _ref6.options;
+        options = _ref6.options;
     return _asyncToGenerator(function* () {
       var _args = _slicedToArray(args, 2);
 
       const origin = _args[0],
-        next = _args[1];
+            next = _args[1];
       const output = options.output;
 
 
@@ -529,12 +581,12 @@ const commands = exports.commands = {
 
   diffFromApk(_ref7) {
     let args = _ref7.args,
-      options = _ref7.options;
+        options = _ref7.options;
     return _asyncToGenerator(function* () {
       var _args2 = _slicedToArray(args, 2);
 
       const origin = _args2[0],
-        next = _args2[1];
+            next = _args2[1];
       const output = options.output;
 
 
@@ -552,12 +604,12 @@ const commands = exports.commands = {
 
   diffFromIpa(_ref8) {
     let args = _ref8.args,
-      options = _ref8.options;
+        options = _ref8.options;
     return _asyncToGenerator(function* () {
       var _args3 = _slicedToArray(args, 2);
 
       const origin = _args3[0],
-        next = _args3[1];
+            next = _args3[1];
       const output = options.output;
 
 
